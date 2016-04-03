@@ -45,8 +45,6 @@ public class RGBtoHSB {
     public BufferedImage Saturation(BufferedImage img) throws FileNotFoundException, UnsupportedEncodingException{
         int width = img.getWidth();
         int height = img.getHeight();
-//        System.out.println(width);
-//        System.out.println(height);
         int Red;
         int Blue;
         int Green;
@@ -66,6 +64,76 @@ public class RGBtoHSB {
                 float saturation = hsb[1];
                 writer.print(saturation*255 + " ");   
                 Color newColor = new Color(saturation,saturation,saturation);
+                HSBImage.setRGB(j, i, newColor.getRGB());
+                Color pixel2 = new Color(HSBImage.getRGB(j,i));
+                writer2.print(pixel2.getRed() + " ");
+            }
+            writer.println("");
+            writer2.println("");
+        }
+        writer.close();
+        writer2.close();
+
+        return HSBImage;
+    }
+    
+    public BufferedImage Hue(BufferedImage img) throws FileNotFoundException, UnsupportedEncodingException{
+        int width = img.getWidth();
+        int height = img.getHeight();
+        int Red;
+        int Blue;
+        int Green;
+        
+        BufferedImage HSBImage = new BufferedImage(img.getWidth(),img.getHeight(), img.getType());
+        
+        PrintWriter writer = new PrintWriter("Hue.txt", "UTF-8");
+        PrintWriter writer2 = new PrintWriter("RGBSaturation.txt", "UTF-8");
+        
+        for (int i=0;i<height;i++){
+            for(int j=0;j<width;j++){
+                Color pixel = new Color(img.getRGB(j,i));
+                Red = pixel.getRed();
+                Blue = pixel.getBlue();
+                Green = pixel.getGreen();
+                float[] hsb = Color.RGBtoHSB(Red, Green, Blue, null);
+                float hue = hsb[0];
+                writer.print(hue*255 + " ");   
+                Color newColor = new Color(hue,hue,hue);
+                HSBImage.setRGB(j, i, newColor.getRGB());
+                Color pixel2 = new Color(HSBImage.getRGB(j,i));
+                writer2.print(pixel2.getRed() + " ");
+            }
+            writer.println("");
+            writer2.println("");
+        }
+        writer.close();
+        writer2.close();
+
+        return HSBImage;
+    }
+    
+    public BufferedImage Brightness(BufferedImage img) throws FileNotFoundException, UnsupportedEncodingException{
+        int width = img.getWidth();
+        int height = img.getHeight();
+        int Red;
+        int Blue;
+        int Green;
+        
+        BufferedImage HSBImage = new BufferedImage(img.getWidth(),img.getHeight(), img.getType());
+        
+        PrintWriter writer = new PrintWriter("Brightness.txt", "UTF-8");
+        PrintWriter writer2 = new PrintWriter("RGBSaturation.txt", "UTF-8");
+        
+        for (int i=0;i<height;i++){
+            for(int j=0;j<width;j++){
+                Color pixel = new Color(img.getRGB(j,i));
+                Red = pixel.getRed();
+                Blue = pixel.getBlue();
+                Green = pixel.getGreen();
+                float[] hsb = Color.RGBtoHSB(Red, Green, Blue, null);
+                float brigthness = hsb[2];
+                writer.print(brigthness*255 + " ");   
+                Color newColor = new Color(brigthness,brigthness,brigthness);
                 HSBImage.setRGB(j, i, newColor.getRGB());
                 Color pixel2 = new Color(HSBImage.getRGB(j,i));
                 writer2.print(pixel2.getRed() + " ");

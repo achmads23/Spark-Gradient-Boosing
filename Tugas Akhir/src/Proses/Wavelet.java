@@ -23,7 +23,7 @@ public class Wavelet {
     
     BufferedImage image;
     
-    public ArrayList<ArrayList<Integer>> selectedLabel (ArrayList<ArrayList<Integer>> pixels) {
+    public ArrayList<ArrayList<Integer>> selectedLabel(ArrayList<ArrayList<Integer>> pixels) {
         int width = pixels.size();
         int height = pixels.get(0).size();
         ArrayList<ArrayList<Integer>> maxmin = new ArrayList<ArrayList<Integer>>();
@@ -82,7 +82,6 @@ public class Wavelet {
                 maxmin.remove(z);
             }
         }
-        System.out.println("MAXMIN SIZE " + maxmin.size());
         return maxmin;
     }
     
@@ -111,20 +110,15 @@ public class Wavelet {
         return array;
     }
     
-    public ArrayList<ArrayList<Double>> Wavelet2D(ArrayList<ArrayList<Integer>> pixels, int cycles,BufferedImage originalImage ) throws IOException {
-        ArrayList<ArrayList<Integer>> maxmin = new ArrayList<ArrayList<Integer>>();
+    public ArrayList<ArrayList<Double>> Wavelet2D(ArrayList<ArrayList<Integer>> maxmin, int cycles,BufferedImage originalImage ) throws IOException {
         ArrayList<ArrayList<Double>> array = new ArrayList<ArrayList<Double>>();
         
         ArrayList<ArrayList<Double>> Fitur = new ArrayList<ArrayList<Double>>();
         
-        maxmin = selectedLabel(pixels);
-        System.out.println(maxmin);
-        image = new ConvertGrayscale().ConvertGrayscale(originalImage);
+        image = new ConvertGrayscale().Grayscale(originalImage);
         for (int z = 0; z < maxmin.size() ; z++){
             int w = (int)maxmin.get(z).get(2) - (int)maxmin.get(z).get(1);
-            System.out.println("w = " + w);
             int h = (int)maxmin.get(z).get(4) - (int)maxmin.get(z).get(3);
-            System.out.println("h = " + h);
             int maxCycle = 0;
             if(w<h)
                 maxCycle = getHaarMaxCycles(w);
@@ -368,7 +362,6 @@ public class Wavelet {
                 }
             }
         }
-        System.out.println(Fitur);
         return Fitur;
     }
 

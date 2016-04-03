@@ -33,18 +33,14 @@ public class ProcessedImage extends javax.swing.JFrame {
         Image dimg;
         Image original;
         if(lebar < Panjang){
-            System.out.println("A");
             int rpanjang= (550 * lebar) / Panjang;
             original = image.getScaledInstance(rpanjang,550,Image.SCALE_SMOOTH);
             dimg = img.getScaledInstance(rpanjang,550,Image.SCALE_SMOOTH);
         } else if(lebar > Panjang) {
-            System.out.println("B");
             int rlebar= (550 * Panjang) / lebar;
-            System.out.println(rlebar);
             original = image.getScaledInstance(550,rlebar,Image.SCALE_SMOOTH);
             dimg = img.getScaledInstance(550,rlebar,Image.SCALE_SMOOTH);
         } else {
-            System.out.println("C");
             original = image.getScaledInstance(550,550,Image.SCALE_SMOOTH);
             dimg = img.getScaledInstance(550,550,Image.SCALE_SMOOTH);
         }

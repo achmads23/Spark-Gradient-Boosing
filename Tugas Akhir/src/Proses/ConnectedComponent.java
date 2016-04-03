@@ -157,7 +157,6 @@ public class ConnectedComponent {
                 }
             }
         }
-        System.out.println(maxmin);
         
         
         /**
