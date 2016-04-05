@@ -1,3 +1,5 @@
+package Proses;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -26,8 +28,8 @@ import org.apache.spark.mllib.tree.model.GradientBoostedTreesModel;
 import org.apache.spark.mllib.util.MLUtils;
 
 public class Spark {
-    
-    public static void main(String[] args){
+    public static String Spark(){
+//    public static void main(String[] args) throws Exception{
       System.setProperty("hadoop.home.dir", "E:\\Teknik Informatika 2012\\Tugas Akhir\\Spark\\hadoop-common-2.2.0-bin-master");
       SparkConf sparkConf = new SparkConf()
         .setAppName("JavaGradientBoostedTreesClassificationExample").setMaster("local");;
@@ -37,6 +39,7 @@ public class Spark {
       String datapath = "spark-1.6.0/data/mllib/dataTraining.txt";
       JavaRDD<LabeledPoint> trainingData = MLUtils.loadLibSVMFile(jsc.sc(), datapath).toJavaRDD();
       
+      //datatesting pasti urut
       String testingDatapath = "spark-1.6.0/data/mllib/TESTING.txt";
       JavaRDD<LabeledPoint> testData = MLUtils.loadLibSVMFile(jsc.sc(), testingDatapath).toJavaRDD();
 
@@ -92,6 +95,7 @@ public class Spark {
 //      model.save(jsc.sc(), "target/tmp/myGradientBoostingClassificationModel");
 //      GradientBoostedTreesModel sameModel = GradientBoostedTreesModel.load(jsc.sc(),
 //        "target/tmp/myGradientBoostingClassificationModel");
+      
+      return "true";
     }
-    
 }
