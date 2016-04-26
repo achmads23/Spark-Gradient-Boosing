@@ -9,6 +9,8 @@ import UI.ProcessedImage;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -96,7 +98,29 @@ public class TugasAkhir {
             Candidates = new Wavelet().selectedLabel(aImage);
             fitur = new Wavelet().Wavelet2D(Candidates, 3,originalimage);
             
-//            System.out.println(fitur);
+            for (int x = 0; x < fitur.size() ;){
+                Double min = fitur.get(x).get(0);
+                Double max = min;
+                for (int y = 1; y < fitur.get(x).size();y++ ){
+                    if(min > fitur.get(x).get(y)){
+                       min =  fitur.get(x).get(y);
+                    }
+                    
+                    if(max < fitur.get(x).get(y)){
+                       max =  fitur.get(x).get(y);
+                    }
+                }
+                
+                for (int y = 0; y < fitur.get(x).size();y++ ){
+                    Double value = fitur.get(x).get(y) -  min;
+                    fitur.get(x).set(y,value);
+                    
+                    value = fitur.get(x).get(y) / max;
+                    fitur.get(x).set(y,value);
+                }
+                x++;
+            }
+            
             System.out.println(fitur.size());
             PrintWriter writer = new PrintWriter("Fitur.txt", "UTF-8");
             
@@ -104,7 +128,9 @@ public class TugasAkhir {
                 writer.print("1 ");
                 for (int y = 0; y < fitur.get(x).size();y++ ){
                     int count = y + 1;
-                    writer.print(count + ":" + fitur.get(x).get(y) + " ");
+                    DecimalFormat df = new DecimalFormat("#.###############");
+                    df.setRoundingMode(RoundingMode.CEILING);
+                    writer.print(count + ":" + df.format(fitur.get(x).get(y)) + " ");
                 }
                 writer.println("");
             }
