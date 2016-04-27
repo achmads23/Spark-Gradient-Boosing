@@ -7,6 +7,7 @@ package Proses;
 
 import UI.ProcessedImage;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.RoundingMode;
@@ -14,6 +15,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import org.imgscalr.Scalr;
 import org.imgscalr.Scalr.Method;
 
@@ -99,9 +101,9 @@ public class TugasAkhir {
             fitur = new Wavelet().Wavelet2D(Candidates, 3,originalimage);
             
             for (int x = 0; x < fitur.size() ;){
-                Double min = fitur.get(x).get(0);
+                Double min = fitur.get(x).get(5);
                 Double max = min;
-                for (int y = 1; y < fitur.get(x).size();y++ ){
+                for (int y = 6; y < fitur.get(x).size();y++ ){
                     if(min > fitur.get(x).get(y)){
                        min =  fitur.get(x).get(y);
                     }
@@ -111,7 +113,7 @@ public class TugasAkhir {
                     }
                 }
                 
-                for (int y = 0; y < fitur.get(x).size();y++ ){
+                for (int y = 5; y < fitur.get(x).size();y++ ){
                     Double value = fitur.get(x).get(y) -  min;
                     fitur.get(x).set(y,value);
                     
@@ -122,21 +124,72 @@ public class TugasAkhir {
             }
             
             System.out.println(fitur.size());
-            PrintWriter writer = new PrintWriter("Fitur.txt", "UTF-8");
+            String path = "Fitur.txt";
+            PrintWriter writer = new PrintWriter(path, "UTF-8");
             
             for (int x = 0; x < fitur.size() ; x++){
                 writer.print("1 ");
-                for (int y = 0; y < fitur.get(x).size();y++ ){
-                    int count = y + 1;
+                for (int y = 5; y < fitur.get(x).size();y++ ){
+                    int count = y - 4;
                     DecimalFormat df = new DecimalFormat("#.###############");
                     df.setRoundingMode(RoundingMode.CEILING);
                     writer.print(count + ":" + df.format(fitur.get(x).get(y)) + " ");
                 }
                 writer.println("");
             }
+            writer.close();
             
-            String A = new Spark().Spark();
+            writer = new PrintWriter("Connected Component.txt", "UTF-8");
             
+            for (int x = 0; x < fitur.size() ; x++){
+                writer.print(x + ". ");
+                for (int y = 0; y < 5;y++ ){
+                    writer.print(fitur.get(x).get(y));
+                }
+                writer.println("");
+            }
+            writer.close();
+            
+            ArrayList<Double> hasil = new ArrayList<Double>();
+            hasil = new Spark().Spark(path);
+            System.out.println("OUTPUT BROO : " + hasil.size());
+            for (int x = 0; x < hasil.size() ; x++){
+                if(hasil.get(x) == 1){
+                    int _width;
+                    _width = fitur.get(x).get(2).intValue() - fitur.get(x).get(1).intValue();
+                    int _height;
+                    _height = fitur.get(x).get(4).intValue() - fitur.get(x).get(3).intValue();
+                    if(_width < 100 && _height < 100){
+                        if ((fitur.get(x).get(2) + 10) < originalimage.getWidth() && _width > 25)
+                            fitur.get(x).set(2,fitur.get(x).get(2) + 10);
+
+                        if ((fitur.get(x).get(3) - 15) > 0 && _height < 27)
+                            fitur.get(x).set(3,fitur.get(x).get(3)-15);
+                        else if ((fitur.get(x).get(3) - 25) > 0)
+                            fitur.get(x).set(3,fitur.get(x).get(3)-25);
+
+                        if ((fitur.get(x).get(4) - 15) > 0)
+                            fitur.get(x).set(4,fitur.get(x).get(4)-15);
+
+                        _width = fitur.get(x).get(2).intValue() - fitur.get(x).get(1).intValue();
+                        _height = fitur.get(x).get(4).intValue() - fitur.get(x).get(3).intValue();
+
+                        BufferedImage imagess;
+                        imagess = new BufferedImage(_width,_height, originalimage.getType());
+
+                        for (int c = 0; c < _height; c++ ){
+                            for (int d = 0; d < _width; d++ ){
+                                int _d = fitur.get(x).get(1).intValue()+d;
+                                int _c = fitur.get(x).get(3).intValue()+c;
+                                imagess.setRGB(d, c, originalimage.getRGB(_d,_c));
+                            }
+                        }
+                        String kata = "OUTPUT" + Integer.toString(x);
+                        File outp = new File("OUTPUT/" + kata + ".jpg");
+                        ImageIO.write(imagess,"jpg", outp);
+                    }
+                }
+            }
             output = new WriteImage().WriteImage(image, "Output");
             ProcessedImage processed = new ProcessedImage(output,originalimage);
             processed.setVisible(true);
