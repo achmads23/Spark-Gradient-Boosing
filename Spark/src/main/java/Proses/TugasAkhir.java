@@ -6,6 +6,7 @@
 package Proses;
 
 import UI.ProcessedImage;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -144,7 +145,7 @@ public class TugasAkhir {
             for (int x = 0; x < fitur.size() ; x++){
                 writer.print(x + ". ");
                 for (int y = 0; y < 5;y++ ){
-                    writer.print(fitur.get(x).get(y));
+                    writer.print(fitur.get(x).get(y) + " ");
                 }
                 writer.println("");
             }
@@ -153,45 +154,38 @@ public class TugasAkhir {
             ArrayList<Double> hasil = new ArrayList<Double>();
             hasil = new Spark().Spark(path);
             System.out.println("OUTPUT BROO : " + hasil.size());
+            int jumlah = 0;
             for (int x = 0; x < hasil.size() ; x++){
                 if(hasil.get(x) == 1){
-                    int _width;
-                    _width = fitur.get(x).get(2).intValue() - fitur.get(x).get(1).intValue();
-                    int _height;
-                    _height = fitur.get(x).get(4).intValue() - fitur.get(x).get(3).intValue();
-                    if(_width < 100 && _height < 100){
-                        if ((fitur.get(x).get(2) + 10) < originalimage.getWidth() && _width > 25)
-                            fitur.get(x).set(2,fitur.get(x).get(2) + 10);
+                    for(int y = fitur.get(x).get(1).intValue(); y < fitur.get(x).get(2).intValue(); y++){
+                        if(y < originalimage.getWidth() && y > 0){
+                            int newR = 0;
+                            int newG = 0;
+                            int newB = 0;
 
-                        if ((fitur.get(x).get(3) - 15) > 0 && _height < 27)
-                            fitur.get(x).set(3,fitur.get(x).get(3)-15);
-                        else if ((fitur.get(x).get(3) - 25) > 0)
-                            fitur.get(x).set(3,fitur.get(x).get(3)-25);
-
-                        if ((fitur.get(x).get(4) - 15) > 0)
-                            fitur.get(x).set(4,fitur.get(x).get(4)-15);
-
-                        _width = fitur.get(x).get(2).intValue() - fitur.get(x).get(1).intValue();
-                        _height = fitur.get(x).get(4).intValue() - fitur.get(x).get(3).intValue();
-
-                        BufferedImage imagess;
-                        imagess = new BufferedImage(_width,_height, originalimage.getType());
-
-                        for (int c = 0; c < _height; c++ ){
-                            for (int d = 0; d < _width; d++ ){
-                                int _d = fitur.get(x).get(1).intValue()+d;
-                                int _c = fitur.get(x).get(3).intValue()+c;
-                                imagess.setRGB(d, c, originalimage.getRGB(_d,_c));
-                            }
+                            Color newColor = new Color(255,newG,newB);
+                            originalimage.setRGB(y, fitur.get(x).get(3).intValue(), newColor.getRGB());
+                            originalimage.setRGB(y, fitur.get(x).get(4).intValue(), newColor.getRGB());
+                            
                         }
-                        String kata = "OUTPUT" + Integer.toString(x);
-                        File outp = new File("OUTPUT/" + kata + ".jpg");
-                        ImageIO.write(imagess,"jpg", outp);
                     }
+                    
+                    for(int y = fitur.get(x).get(3).intValue(); y < fitur.get(x).get(4).intValue(); y++){
+                        if(y < originalimage.getHeight() && y > 0){
+                            int newR = 0;
+                            int newG = 0;
+                            int newB = 0;
+
+                            Color newColor = new Color(255,newG,newB);
+                            originalimage.setRGB(fitur.get(x).get(1).intValue(), y, newColor.getRGB());
+                            originalimage.setRGB(fitur.get(x).get(2).intValue(), y, newColor.getRGB());
+                        }
+                    }
+                    jumlah++;
                 }
             }
             output = new WriteImage().WriteImage(image, "Output");
-            ProcessedImage processed = new ProcessedImage(output,originalimage);
+            ProcessedImage processed = new ProcessedImage(output,originalimage,jumlah);
             processed.setVisible(true);
         } catch (IOException ex) {
             Logger.getLogger(TugasAkhir.class.getName()).log(Level.SEVERE, null, ex);

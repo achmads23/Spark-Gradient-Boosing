@@ -5,7 +5,6 @@
  */
 package Proses;
 
-import UI.ProcessedImage;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -13,14 +12,6 @@ import java.io.PrintWriter;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.apache.commons.io.FileUtils;
-import org.imgscalr.Scalr;
-import org.imgscalr.Scalr.Method;
-
-import static org.imgscalr.Scalr.OP_ANTIALIAS;
-import static org.imgscalr.Scalr.OP_BRIGHTER;
 /**
  *
  * @author achmad
@@ -50,8 +41,8 @@ public class TugasAkhir {
         File[] listOfPositive = positive.listFiles();
         File[] listOfNegative = negative.listFiles();
         
-        ArrayList<String> listPathPositive = new ArrayList<String>();
-        ArrayList<String> listPathNegative = new ArrayList<String>();
+        ArrayList<String> listPathPositive = new ArrayList<>();
+        ArrayList<String> listPathNegative = new ArrayList<>();
         
         for (int i = 0; i < listOfPositive.length; i++) {
           File file = listOfPositive[i];

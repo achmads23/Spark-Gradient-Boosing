@@ -116,6 +116,7 @@ public class Wavelet {
         ArrayList<ArrayList<Double>> Fitur = new ArrayList<ArrayList<Double>>();
         
         image = new ConvertGrayscale().Grayscale(originalImage);
+        System.out.println("COUNT " + maxmin.size());
         for (int z = 0; z < maxmin.size() ; z++){
             int w = (int)maxmin.get(z).get(2) - (int)maxmin.get(z).get(1);
             int h = (int)maxmin.get(z).get(4) - (int)maxmin.get(z).get(3);
@@ -230,12 +231,16 @@ public class Wavelet {
                     }
                 }
                 
+                System.out.println("COUNT " + z);
+                System.out.println("0  " + maxmin.get(z).get(0));
                 Fitur.add(new ArrayList<Double>());
-                Fitur.get(z).add(0,(double)maxmin.get(z).get(0));
-                Fitur.get(z).add(1,(double)maxmin.get(z).get(1));
-                Fitur.get(z).add(2,(double)maxmin.get(z).get(2));
-                Fitur.get(z).add(3,(double)maxmin.get(z).get(3));
-                Fitur.get(z).add(4,(double)maxmin.get(z).get(4));
+                System.out.println("FITUR " + Fitur.toString());
+                System.out.println("FITUR z " + Fitur.get(Fitur.size()-1));
+                Fitur.get(Fitur.size()-1).add(0,(double)maxmin.get(z).get(0));
+                Fitur.get(Fitur.size()-1).add(1,(double)maxmin.get(z).get(1));
+                Fitur.get(Fitur.size()-1).add(2,(double)maxmin.get(z).get(2));
+                Fitur.get(Fitur.size()-1).add(3,(double)maxmin.get(z).get(3));
+                Fitur.get(Fitur.size()-1).add(4,(double)maxmin.get(z).get(4));
                 
                 for (int a = 0; a < cycles; a++) {
                     int index = 5 + a * 6;
@@ -263,22 +268,22 @@ public class Wavelet {
                     double pembilang = (y2R) - ((yR*yR)/((height*width)/4));
                     double stDeviasi = sqrt(pembilang / (((height*width)/4) - 1));
                     double mean = yR / ((height*width)/4);
-                    Fitur.get(z).add(index + 0,stDeviasi);
-                    Fitur.get(z).add(index + 1,mean);
+                    Fitur.get(Fitur.size()-1).add(index + 0,stDeviasi);
+                    Fitur.get(Fitur.size()-1).add(index + 1,mean);
 
                     //G
                     pembilang = (y2G) - ((yG*yG)/((height*width)/4));
                     stDeviasi = sqrt(pembilang / (((height*width)/4) - 1));
                     mean = yG / ((height*width)/4);
-                    Fitur.get(z).add(index + 2,stDeviasi);
-                    Fitur.get(z).add(index + 3,mean);
+                    Fitur.get(Fitur.size()-1).add(index + 2,stDeviasi);
+                    Fitur.get(Fitur.size()-1).add(index + 3,mean);
 
                     //B
                     pembilang = (y2B) - ((yG*yB)/((height*width)/4));
                     stDeviasi = sqrt(pembilang / (((height*width)/4) - 1));
                     mean = yB / ((height*width)/4);
-                    Fitur.get(z).add(index + 4,stDeviasi);
-                    Fitur.get(z).add(index + 5,mean);
+                    Fitur.get(Fitur.size()-1).add(index + 4,stDeviasi);
+                    Fitur.get(Fitur.size()-1).add(index + 5,mean);
 
                     
 
@@ -303,22 +308,22 @@ public class Wavelet {
                     pembilang = (y2R) - ((yR*yR)/((height*width)/4));
                     stDeviasi = sqrt(pembilang / (((height*width)/4) - 1));
                     mean = yR / ((height*width)/4);
-                    Fitur.get(z).add(index + 6,stDeviasi);
-                    Fitur.get(z).add(index + 7,mean);
+                    Fitur.get(Fitur.size()-1).add(index + 6,stDeviasi);
+                    Fitur.get(Fitur.size()-1).add(index + 7,mean);
 
                     //G
                     pembilang = (y2G) - ((yG*yG)/((height*width)/4));
                     stDeviasi = sqrt(pembilang / (((height*width)/4) - 1));
                     mean = yG / ((height*width)/4);
-                    Fitur.get(z).add(index + 8,stDeviasi);
-                    Fitur.get(z).add(index + 9,mean);
+                    Fitur.get(Fitur.size()-1).add(index + 8,stDeviasi);
+                    Fitur.get(Fitur.size()-1).add(index + 9,mean);
 
                     //B
                     pembilang = (y2B) - ((yG*yB)/((height*width)/4));
                     stDeviasi = sqrt(pembilang / (((height*width)/4) - 1));
                     mean = yB / ((height*width)/4);
-                    Fitur.get(z).add(index + 10,stDeviasi);
-                    Fitur.get(z).add(index + 11,mean);
+                    Fitur.get(Fitur.size()-1).add(index + 10,stDeviasi);
+                    Fitur.get(Fitur.size()-1).add(index + 11,mean);
                     
                     //kiri bawah
                     yR = 0;
@@ -341,22 +346,22 @@ public class Wavelet {
                     pembilang = (y2R) - ((yR*yR)/((height*width)/4));
                     stDeviasi = sqrt(pembilang / (((height*width)/4) - 1));
                     mean = yR / ((height*width)/4);
-                    Fitur.get(z).add(index + 12,stDeviasi);
-                    Fitur.get(z).add(index + 13,mean);
+                    Fitur.get(Fitur.size()-1).add(index + 12,stDeviasi);
+                    Fitur.get(Fitur.size()-1).add(index + 13,mean);
 
                     //G
                     pembilang = (y2G) - ((yG*yG)/((height*width)/4));
                     stDeviasi = sqrt(pembilang / (((height*width)/4) - 1));
                     mean = yG / ((height*width)/4);
-                    Fitur.get(z).add(index + 14,stDeviasi);
-                    Fitur.get(z).add(index + 15,mean);
+                    Fitur.get(Fitur.size()-1).add(index + 14,stDeviasi);
+                    Fitur.get(Fitur.size()-1).add(index + 15,mean);
 
                     //B
                     pembilang = (y2B) - ((yG*yB)/((height*width)/4));
                     stDeviasi = sqrt(pembilang / (((height*width)/4) - 1));
                     mean = yB / ((height*width)/4);
-                    Fitur.get(z).add(index + 16,stDeviasi);
-                    Fitur.get(z).add(index + 17,mean);
+                    Fitur.get(Fitur.size()-1).add(index + 16,stDeviasi);
+                    Fitur.get(Fitur.size()-1).add(index + 17,mean);
                     height = height/2;
                     width = width/2;
                 }
