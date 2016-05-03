@@ -58,77 +58,104 @@ public class TugasAkhir {
         
         ArrayList<ArrayList<Double>> listFiturPositive = new ArrayList<ArrayList<Double>>();
         ArrayList<ArrayList<Double>> listFiturNegative = new ArrayList<ArrayList<Double>>();
+        ArrayList<ArrayList<Double>> listFitur = new ArrayList<ArrayList<Double>>();
         
         ArrayList<Double> fitur = new ArrayList<Double>();
         
         for (int i = 0; i < listPathPositive.size(); i++) {
             fitur = ExtractFitur(listPathPositive.get(i));
             listFiturPositive.add(fitur);
+            listFitur.add(fitur);
         }
         
         for (int i = 0; i < listPathNegative.size(); i++) {
             fitur = ExtractFitur(listPathNegative.get(i));
             listFiturNegative.add(fitur);
+            listFitur.add(fitur);
         }
         
-        for (int x = 0; x < listFiturNegative.size() ;){
-            Double min = listFiturNegative.get(x).get(0);
-            Double max = min;
-            for (int y = 0; y < listFiturNegative.get(x).size();y++ ){
-                if(min > listFiturNegative.get(x).get(y)){
-                   min =  listFiturNegative.get(x).get(y);
-                }
-
-                if(max < listFiturNegative.get(x).get(y)){
-                   max =  listFiturNegative.get(x).get(y);
-                }
-            }
-
-            for (int y = 0; y < listFiturNegative.get(x).size();y++ ){
-                Double value = listFiturNegative.get(x).get(y) -  min;
-                listFiturNegative.get(x).set(y,value);
-
-                value = listFiturNegative.get(x).get(y) / max;
-                listFiturNegative.get(x).set(y,value);
-            }
-            x++;
-        }
-        
-        for (int x = 0; x < listFiturPositive.size() ;){
-            Double min = listFiturPositive.get(x).get(0);
-            Double max = min;
-            for (int y = 0; y < listFiturPositive.get(x).size();y++ ){
-                if(min > listFiturPositive.get(x).get(y)){
-                   min =  listFiturPositive.get(x).get(y);
-                }
-
-                if(max < listFiturPositive.get(x).get(y)){
-                   max =  listFiturPositive.get(x).get(y);
-                }
-            }
-
-            for (int y = 0; y < listFiturPositive.get(x).size();y++ ){
-                Double value = listFiturPositive.get(x).get(y) -  min;
-                listFiturPositive.get(x).set(y,value);
-
-                value = listFiturPositive.get(x).get(y) / max;
-                listFiturPositive.get(x).set(y,value);
-            }
-            x++;
-        }
+//        for (int x = 0; x < listFiturNegative.get(0).size() ;){
+//            Double min = 0.0;
+//            Double max = 0.0;
+//            for (int y = 0; y < listFiturNegative.size();y++ ){
+//                if(y == 0){
+//                    min = listFiturNegative.get(y).get(x);
+//                } else {
+//                    if(min > listFiturNegative.get(y).get(x)){
+//                       min =  listFiturNegative.get(y).get(x);
+//                    }
+//                }
+//            }
+//            for (int y = 0; y < listFiturNegative.size();y++ ){
+//                
+//                Double value = listFiturNegative.get(y).get(x) -  min;
+//                listFiturNegative.get(y).set(x,value);
+//            }
+//            
+//            for (int y = 0; y < listFiturNegative.size();y++ ){
+//                if(y == 0){
+//                    max = listFiturNegative.get(y).get(x);
+//                } else {
+//                    if(max < listFiturNegative.get(y).get(x)){
+//                       max =  listFiturNegative.get(y).get(x);
+//                    }
+//                }
+//            }
+//            for (int y = 0; y < listFiturNegative.size();y++ ){
+//                
+//                Double value = listFiturNegative.get(y).get(x) /  max;
+//                listFiturNegative.get(y).set(x,value);
+//            }
+//            x++;
+//        }
+//        
+//        for (int x = 0; x < listFiturPositive.get(0).size() ;){
+//            Double min = 0.0;
+//            Double max = 0.0;
+//            for (int y = 0; y < listFiturPositive.size();y++ ){
+//                if(y == 0){
+//                    min = listFiturPositive.get(y).get(x);
+//                } else {
+//                    if(min > listFiturPositive.get(y).get(x)){
+//                       min =  listFiturPositive.get(y).get(x);
+//                    }
+//                }
+//            }
+//            for (int y = 0; y < listFiturPositive.size();y++ ){
+//                
+//                Double value = listFiturPositive.get(y).get(x) -  min;
+//                listFiturPositive.get(y).set(x,value);
+//            }
+//            
+//            for (int y = 0; y < listFiturPositive.size();y++ ){
+//                if(y == 0){
+//                    max = listFiturPositive.get(y).get(x);
+//                } else {
+//                    if(max < listFiturPositive.get(y).get(x)){
+//                       max =  listFiturPositive.get(y).get(x);
+//                    }
+//                }
+//            }
+//            for (int y = 0; y < listFiturPositive.size();y++ ){
+//                
+//                Double value = listFiturPositive.get(y).get(x) /  max;
+//                listFiturPositive.get(y).set(x,value);
+//            }
+//            x++;
+//        }
         
         PrintWriter writerNegative = new PrintWriter("FiturNegative.txt", "UTF-8");
-        PrintWriter writer = new PrintWriter("Fitur.txt", "UTF-8");
-
-        for (int x = 0; x < listFiturNegative.size() ; x++){
+        PrintWriter writer = new PrintWriter("TrainingData.txt", "UTF-8");
+        for (int x = 0; x < 1000 ; x++){
+//        for (int x = 0; x < listFiturNegative.size() ; x++){
             writerNegative.print("0 ");
             writer.print("0 ");
             for (int y = 0; y < listFiturNegative.get(x).size();y++ ){
                 int count = y + 1;
-                DecimalFormat df = new DecimalFormat("#.###############");
-                df.setRoundingMode(RoundingMode.CEILING);
-                writerNegative.print(count + ":" + df.format(listFiturNegative.get(x).get(y)) + " ");
-                writer.print(count + ":" + df.format(listFiturNegative.get(x).get(y)) + " ");
+                Double out = new Double(listFiturNegative.get(x).get(y) * 10000);
+                int out_int = out.intValue();
+                writerNegative.print(count + ":" + out_int + " ");
+                writer.print(count + ":" + out_int + " ");
             }
             writerNegative.println("");
             writer.println("");
@@ -142,10 +169,10 @@ public class TugasAkhir {
             writer.print("1 ");
             for (int y = 0; y < listFiturPositive.get(x).size();y++ ){
                 int count = y +1;
-                DecimalFormat df = new DecimalFormat("#.###############");
-                df.setRoundingMode(RoundingMode.CEILING);
-                writerPositive.print(count + ":" + df.format(listFiturPositive.get(x).get(y)) + " ");
-                writer.print(count + ":" + df.format(listFiturPositive.get(x).get(y)) + " ");
+                Double out = new Double(listFiturPositive.get(x).get(y) * 10000);
+                int out_int = out.intValue();
+                writerPositive.print(count + ":" + out_int + " ");
+                writer.print(count + ":" + out_int + " ");
             }
             writerPositive.println("");
             writer.println("");

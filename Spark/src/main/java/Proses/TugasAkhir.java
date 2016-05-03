@@ -101,46 +101,7 @@ public class TugasAkhir {
             Candidates = new Wavelet().selectedLabel(aImage);
             fitur = new Wavelet().Wavelet2D(Candidates, 3,originalimage);
             
-            for (int x = 0; x < fitur.size() ;){
-                Double min = fitur.get(x).get(5);
-                Double max = min;
-                for (int y = 6; y < fitur.get(x).size();y++ ){
-                    if(min > fitur.get(x).get(y)){
-                       min =  fitur.get(x).get(y);
-                    }
-                    
-                    if(max < fitur.get(x).get(y)){
-                       max =  fitur.get(x).get(y);
-                    }
-                }
-                
-                for (int y = 5; y < fitur.get(x).size();y++ ){
-                    Double value = fitur.get(x).get(y) -  min;
-                    fitur.get(x).set(y,value);
-                    
-                    value = fitur.get(x).get(y) / max;
-                    fitur.get(x).set(y,value);
-                }
-                x++;
-            }
-            
-            System.out.println(fitur.size());
-            String path = "Fitur.txt";
-            PrintWriter writer = new PrintWriter(path, "UTF-8");
-            
-            for (int x = 0; x < fitur.size() ; x++){
-                writer.print("1 ");
-                for (int y = 5; y < fitur.get(x).size();y++ ){
-                    int count = y - 4;
-                    DecimalFormat df = new DecimalFormat("#.###############");
-                    df.setRoundingMode(RoundingMode.CEILING);
-                    writer.print(count + ":" + df.format(fitur.get(x).get(y)) + " ");
-                }
-                writer.println("");
-            }
-            writer.close();
-            
-            writer = new PrintWriter("Connected Component.txt", "UTF-8");
+            PrintWriter writer = new PrintWriter("Connected Component.txt", "UTF-8");
             
             for (int x = 0; x < fitur.size() ; x++){
                 writer.print(x + ". ");
@@ -151,10 +112,111 @@ public class TugasAkhir {
             }
             writer.close();
             
-            ArrayList<Double> hasil = new ArrayList<Double>();
-            hasil = new Spark().Spark(path);
-            System.out.println("OUTPUT BROO : " + hasil.size());
+            ArrayList<ArrayList<Double>> Original_listFitur = new ArrayList<ArrayList<Double>>();
+            ArrayList<ArrayList<Double>> listFitur = new ArrayList<ArrayList<Double>>();
+            Original_listFitur = new TrainingData().TrainingData();
             int jumlah = 0;
+            
+            listFitur = Original_listFitur;
+            for (int x = 1; x < listFitur.get(0).size() ;){
+                Double min = 0.0;
+                Double max = 0.0;
+                for (int y = 0; y < listFitur.size();y++ ){
+                    if(y == 0){
+                        for (int a = 0; a < fitur.size() ; a++){
+                            if(a== 0){
+                                min = fitur.get(a).get(x+4);
+                            } else {
+                                if(min > fitur.get(a).get(x+4)){
+                                    min =  fitur.get(a).get(x+4);
+                                }
+                            }
+                        }
+                    }
+                    
+                    if(min > listFitur.get(y).get(x)){
+                       min =  listFitur.get(y).get(x);
+                    }
+                    
+                }
+                for (int y = 0; y < listFitur.size();y++ ){
+                    if(y == 0){
+                        for (int a = 0; a < fitur.size() ; a++){
+                            Double value = fitur.get(a).get(x+4) -  min;
+                            fitur.get(a).set(x+4,value);
+                        }
+                    }
+                    
+                    Double value = listFitur.get(y).get(x) -  min;
+                    listFitur.get(y).set(x,value);
+                    
+                }
+
+                for (int y = 0; y < listFitur.size();y++ ){
+                    if(y == 0){
+                        for (int a = 0; a < fitur.size() ; a++){
+                            if(a== 0){
+                                max = fitur.get(a).get(x+4);
+                            } else {
+                                if(max < fitur.get(a).get(x+4)){
+                                    max =  fitur.get(a).get(x+4);
+                                }
+                            }
+                        }
+                    }
+                    
+                    if(max < listFitur.get(y).get(x)){
+                       max =  listFitur.get(y).get(x);
+                    }
+                    
+                }
+                for (int y = 0; y < listFitur.size();y++ ){
+                    if(y == 0){
+                        for (int a = 0; a < fitur.size() ; a++){
+                            Double value = fitur.get(a).get(x+4) /  max;
+                            fitur.get(a).set(x+4,value);
+                        }
+                    }
+                    
+                    Double value = listFitur.get(y).get(x) /  max;
+                    listFitur.get(y).set(x,value);
+                    
+                }
+                x++;
+            }
+            
+            String path = "Fitur.txt";
+            writer = new PrintWriter(path, "UTF-8");
+            for(int a = 0 ; a < fitur.size() ; a++){
+                writer.print("1 ");
+                for (int y = 5; y < fitur.get(a).size();y++ ){
+                    int count = y - 4;
+                    Double out = new Double(fitur.get(a).get(y) * 10000);
+                    int out_int = out.intValue();
+                    writer.print(count + ":" + out_int + " ");
+                }
+                writer.println("");
+            }
+            writer.close();
+                
+            String trainingpath = "Dataset.txt";
+            PrintWriter writerPositive = new PrintWriter(trainingpath, "UTF-8");
+
+            for (int x = 0; x < listFitur.size() ; x++){
+                writerPositive.print(listFitur.get(x).get(0).intValue() + " ");
+                for (int y = 1; y < listFitur.get(x).size();y++ ){
+                    int count = y;
+                    Double out = new Double(listFitur.get(x).get(y) * 10000);
+                    int out_int = out.intValue();
+                    writerPositive.print(count + ":" + out_int + " ");
+                }
+                writerPositive.println("");
+            }
+            writerPositive.close();
+            
+            ArrayList<Double> hasil = new ArrayList<Double>();
+            hasil = new Spark().Spark(trainingpath,path);
+
             for (int x = 0; x < hasil.size() ; x++){
                 if(hasil.get(x) == 1){
                     for(int y = fitur.get(x).get(1).intValue(); y < fitur.get(x).get(2).intValue(); y++){
@@ -166,10 +228,10 @@ public class TugasAkhir {
                             Color newColor = new Color(255,newG,newB);
                             originalimage.setRGB(y, fitur.get(x).get(3).intValue(), newColor.getRGB());
                             originalimage.setRGB(y, fitur.get(x).get(4).intValue(), newColor.getRGB());
-                            
+
                         }
                     }
-                    
+
                     for(int y = fitur.get(x).get(3).intValue(); y < fitur.get(x).get(4).intValue(); y++){
                         if(y < originalimage.getHeight() && y > 0){
                             int newR = 0;
@@ -184,6 +246,7 @@ public class TugasAkhir {
                     jumlah++;
                 }
             }
+            
             output = new WriteImage().WriteImage(image, "Output");
             ProcessedImage processed = new ProcessedImage(output,originalimage,jumlah);
             processed.setVisible(true);

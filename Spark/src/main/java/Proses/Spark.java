@@ -9,19 +9,11 @@ package Proses;
  *
  * @author achma
  */
-import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import scala.Tuple2;
 
@@ -31,7 +23,6 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.api.java.function.PairFunction;
-import org.apache.spark.api.java.function.VoidFunction;
 import org.apache.spark.mllib.regression.LabeledPoint;
 import org.apache.spark.mllib.tree.GradientBoostedTrees;
 import org.apache.spark.mllib.tree.configuration.BoostingStrategy;
@@ -40,7 +31,7 @@ import org.apache.spark.mllib.util.MLUtils;
 
 public class Spark {
 
-    public static ArrayList<Double> Spark(String path) throws FileNotFoundException, UnsupportedEncodingException {
+    public static ArrayList<Double> Spark(String trainingpath, String path) throws FileNotFoundException, UnsupportedEncodingException {
 //    public static void main(String[] args) throws Exception{
         System.setProperty("hadoop.home.dir", "E:\\Teknik Informatika 2012\\Tugas Akhir\\Spark\\hadoop-common-2.2.0-bin-master");
         SparkConf sparkConf = new SparkConf()
@@ -49,10 +40,9 @@ public class Spark {
 
         // Load and parse the data file.
 //      String datapath = "spark-1.6.0/data/mllib/dataTraining.txt";
-        String datapath = "E:\\Teknik Informatika 2012\\Tugas Akhir\\Spark\\Training Data.txt";
+        String datapath = trainingpath;
 
         JavaRDD<LabeledPoint> trainingData = MLUtils.loadLibSVMFile(jsc.sc(), datapath).toJavaRDD();
-
         //datatesting pasti urut
         String testingDatapath = path;
         JavaRDD<LabeledPoint> testData = MLUtils.loadLibSVMFile(jsc.sc(), testingDatapath).toJavaRDD();
@@ -96,22 +86,15 @@ public class Spark {
             return !pl._1().equals(pl._2());
           }
         }).count();
-//      System.out.println(failData);
+        System.out.println(failData);
         System.out.println("Test Error: " + testErr);
         System.out.println("Prediction and Label: " + predictionAndLabel.toDebugString());
         System.out.println("Learned classification GBT model:\n" + model.toDebugString());
-
-//      // Save and load model
-//      model.save(jsc.sc(), "output/myGradientBoostingClassificationModel");
-//      GradientBoostedTreesModel sameModel = GradientBoostedTreesModel.load(jsc.sc(),
-//        "output/myGradientBoostingClassificationModel");
-//      model.save(jsc.sc(), "target/tmp/myGradientBoostingClassificationModel");
-//      GradientBoostedTreesModel sameModel = GradientBoostedTreesModel.load(jsc.sc(),
-//        "target/tmp/myGradientBoostingClassificationModel");
         ArrayList<Double> out = new ArrayList<>();
         for (int i = 0; i < predictionAndLabel.count(); i++) {
                 out.add(predictionAndLabel.collect().get(i)._1());
         }
+        
         
         return out;
     }
