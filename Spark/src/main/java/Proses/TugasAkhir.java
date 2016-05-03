@@ -101,13 +101,33 @@ public class TugasAkhir {
             Candidates = new Wavelet().selectedLabel(aImage);
             fitur = new Wavelet().Wavelet2D(Candidates, 3,originalimage);
             
+            for(int a = 0 ; a < fitur.size() ;){
+                double width_ccl = fitur.get(a).get(2) - fitur.get(a).get(1);
+                double height_ccl = fitur.get(a).get(4) - fitur.get(a).get(3);
+                if(width_ccl > 100 || height_ccl > 100){
+                    fitur.remove(a);
+                    continue;
+                } else if(width_ccl / 2 > height_ccl){
+                    fitur.remove(a);
+                    continue;
+                } else if(height_ccl / 2 > width_ccl){
+                    fitur.remove(a);
+                    continue;
+                }
+                a++;
+            }
+            
             PrintWriter writer = new PrintWriter("Connected Component.txt", "UTF-8");
             
             for (int x = 0; x < fitur.size() ; x++){
+                double width_ccl = fitur.get(x).get(2) - fitur.get(x).get(1);
+                double height_ccl = fitur.get(x).get(4) - fitur.get(x).get(3);
                 writer.print(x + ". ");
                 for (int y = 0; y < 5;y++ ){
                     writer.print(fitur.get(x).get(y) + " ");
                 }
+                writer.print(width_ccl + " ");
+                writer.print(height_ccl + " ");
                 writer.println("");
             }
             writer.close();
