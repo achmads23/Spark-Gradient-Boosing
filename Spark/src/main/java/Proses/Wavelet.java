@@ -115,8 +115,8 @@ public class Wavelet {
         
         ArrayList<ArrayList<Double>> Fitur = new ArrayList<ArrayList<Double>>();
         
-//        image = new ConvertGrayscale().Grayscale(originalImage);
-        image = originalImage;
+        image = new ConvertGrayscale().Grayscale(originalImage);
+//        image = originalImage;
         for (int z = 0; z < maxmin.size() ; z++){
             int w = (int)maxmin.get(z).get(2) - (int)maxmin.get(z).get(1);
             int h = (int)maxmin.get(z).get(4) - (int)maxmin.get(z).get(3);
@@ -383,8 +383,8 @@ public class Wavelet {
         
         ArrayList<Double> Fitur = new ArrayList<Double>();
         
-//        image = new ConvertGrayscale().Grayscale(originalImage);
-        image = originalImage;
+        image = new ConvertGrayscale().Grayscale(originalImage);
+//        image = originalImage;
         int w = originalImage.getWidth();
         int h = originalImage.getHeight();
         int maxCycle = 0;
